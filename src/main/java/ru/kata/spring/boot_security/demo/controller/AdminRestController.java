@@ -10,7 +10,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/users")
 public class AdminRestController {
 
     private final UserService userService;
@@ -20,32 +20,31 @@ public class AdminRestController {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers(@RequestParam(name = "count", defaultValue = "15") int count) {
+    @GetMapping()
+    public ResponseEntity<List<User>> getUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         return new ResponseEntity<>(userService.getUser(id),HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<User> processAddForm(@ModelAttribute User user, @RequestParam String role) {
+    public ResponseEntity<User> createUser(@RequestBody User user, @RequestParam String role) {
         user.addRole(role);
         userService.createUser(user);
         return new ResponseEntity<>(userService.findUserByEmail(user.getEmail()),HttpStatus.OK);
     }
 
     @PutMapping("/edit/{id}")
-    public String processEditForm(@PathVariable Long id, @ModelAttribute User user, @RequestParam String role) {
-        //userService.updateUser(id, user, role);
-        return "edit";
+    public ResponseEntity<User> editUser(@PathVariable Long id, @RequestBody User user, @RequestParam String role) {
+        userService.updateUser(id, user, role);
+        return new ResponseEntity<>(userService.getUser(id),HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> processDeleteForm(@PathVariable Long id) {
-        //System.out.println(id);
-        //userService.deleteUser(id);
-        return ResponseEntity.ok("ok");
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.ok(id.toString());
     }
 }
