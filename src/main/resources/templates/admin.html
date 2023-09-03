@@ -50,32 +50,14 @@
                         <th>Delete</th>
                       </tr>
                     </thead>
-                    <tbody>
-                    <tr th:each="user : ${users}">
-                        <td th:text="${user.getId()}">null</td>
-                        <td th:text="${user.getFirstName()}">---</td>
-                        <td th:text="${user.getLastName()}">---</td>
-                        <td th:text="${user.getAge()}">---</td>
-                        <td th:text="${user.getEmail()}">---</td>
-                        <td>
-                            <ul>
-                                <li th:each="role : ${user.getRoles()}" th:text="${role.getName()}"></li>
-                            </ul>
-                        </td>
-                        <td>
-                            <button type="button" class="button-edit" th:attr="data-toggle='modal', data-target='#editModal' + ${user.getId()}">Edit</button>
-                        </td>
-                        <td>
-                            <button type="button" class="button-delete" th:attr="data-toggle='modal', data-target='#deleteModal' + ${user.getId()}">Delete</button>
-                        </td>
-
-                    </tr>
+                    <tbody id="user-table-body">
+                    
 
                     </tbody>
                   </table>
           </div>
           <div id="content-2">
-              <form class="new-user-form" th:action="@{/admin/create}" method="post">
+              <form class="new-user-form">
                   <label class="new-user-label" for="firstName">First name</label>
                   <input type="text" id="firstName" name="firstName"><br>
                   
@@ -104,81 +86,8 @@
       </div>
     </div>
   </div>
-  <!-- Модальное окно редактирования для каждого пользователя -->
-  <div th:each="user : ${users}" th:id="'editModal' + ${user.getId()}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                  <form class="form-edit" th:action="@{/admin/edit/{id}(id=${user.id})}" method="post">
-                      <label for="edit_id">ID</label>
-                      <input type="text" name="id" id="edit_id"  th:value="${user.getId()}" readonly><br>
 
-                      <label for="edit_firstname">First name</label>
-                      <input type="text" name="firstName" id="edit_firstname"  th:value="${user.getFirstName()}"><br>
-
-                      <label for="edit_lastName">Last name</label>
-                      <input type="text" name="lastName" id="edit_lastName" th:value="${user.getLastName()}"><br>
-
-                      <label for="edit_age">Age</label>
-                      <input type="text" name="age" id="edit_age"  th:value="${user.getAge()}"><br>
-
-                      <label for="edit_email">Email</label>
-                      <input type="email" name="email" id="edit_email"  th:value="${user.getEmail()}"><br>
-
-                      <label for="edit_password">Password</label>
-                      <input type="password" name="password" id="edit_password"  th:value="${user.getPassword()}"><br>
-
-                      <label for="edit_role">Role</label>
-                      <select id="edit_role" name="role">
-                          <option value="ROLE_USER">USER</option>
-                          <option value="ROLE_ADMIN" th:selected="${user.getRoles().contains('ROLE_ADMIN')}">ADMIN</option>
-                      </select><br>
-
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-                          <button type="submit" class="button-edit" >Edit</button>
-                      </div>
-                  </form>
-
-              </div>
-
-          </div>
-      </div>
-  </div>
-
-  <!-- Модальное окно удаления для каждого пользователя -->
-  <div th:each="user : ${users}" th:id="'deleteModal' + ${user.getId()}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel2">Delete user</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                  <h3>Вы действительно, хотите</h3>
-                  <h3>удалить пользователя:</h3>
-                  <h2 th:text="${user.getEmail()}"></h2>
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <form method="post" th:action="@{/admin/delete/{id}(id=${user.getId()})}">
-                      <button type="submit" class="button-delete" >Delete</button>
-                  </form>
-              </div>
-          </div>
-      </div>
-  </div>
-
-  
+  <script src="/js/admin.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
