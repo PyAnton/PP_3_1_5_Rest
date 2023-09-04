@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const userTableBody = document.getElementById('user-table-body');
     const body = document.getElementsByTagName('body')[0];
 
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const editButton = editModal.querySelector('.button-edit');
 
         // Добавляем обработчик события клика на кнопку "Edit"
-        editButton.addEventListener('click', function() {
+        editButton.addEventListener('click', function () {
 
             const userId = document.getElementById('edit_id').value;
             // Ваш JSON-объект пользователя
@@ -96,18 +96,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: JSON.stringify(editedUser)
             })
-            .then(response => {
-                if (response.ok) {
-                    // Успешное редактирование пользователя
-                    refreshTable();
-                    console.log('Пользователь успешно отредактирован.');
-                } else {
-                    throw new Error('Ошибка при редактировании пользователя');
-                }
-            })
-            .catch(error => {
-                console.error('Произошла ошибка при редактировании пользователя:', error);
-            });
+                .then(response => {
+                    if (response.ok) {
+                        // Успешное редактирование пользователя
+                        refreshTable();
+                        console.log('Пользователь успешно отредактирован.');
+                    } else {
+                        throw new Error('Ошибка при редактировании пользователя');
+                    }
+                })
+                .catch(error => {
+                    console.error('Произошла ошибка при редактировании пользователя:', error);
+                });
 
             // Закрываем модальное окно после редактирования
             $(editModal).modal('hide');
@@ -158,96 +158,95 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const deleteButton = deleteModal.querySelector('.button-delete');
         // Добавляем обработчик события клика на кнопку "Delete"
-        deleteButton.addEventListener('click', function() {
+        deleteButton.addEventListener('click', function () {
             // Отправляем DELETE-запрос на сервер для удаления пользователя
             fetch(`/api/users/delete/${userId}`, {
                 method: 'DELETE'
             })
-            .then(response => {
-                if (response.ok) {
-                    // Успешное удаление пользователя
-                    refreshTable();
-                    console.log('Пользователь успешно удален.');
-                } else {
-                    throw new Error('Ошибка при удалении пользователя');
-                }
-            })
-            .catch(error => {
-                console.error('Произошла ошибка при удалении пользователя:', error);
-            });
+                .then(response => {
+                    if (response.ok) {
+                        // Успешное удаление пользователя
+                        refreshTable();
+                        console.log('Пользователь успешно удален.');
+                    } else {
+                        throw new Error('Ошибка при удалении пользователя');
+                    }
+                })
+                .catch(error => {
+                    console.error('Произошла ошибка при удалении пользователя:', error);
+                });
 
             // Закрываем модальное окно после удаления
             $(deleteModal).modal('hide');
         });
     }
+
     // Найти форму, с которой вы хотите отправить данные
-const newUserForm = document.querySelector('.new-user-form');
+    const newUserForm = document.querySelector('.new-user-form');
 
 // Назначить обработчик события на отправку формы
-newUserForm.addEventListener('submit', (event) => {
-    event.preventDefault(); // Предотвратить отправку формы по умолчанию
+    newUserForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Предотвратить отправку формы по умолчанию
 
-    // Ваш JSON-объект пользователя
-    const editedUser = {
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        age: document.getElementById('age').value,
-        email: document.getElementById('email').value,
-        password: document.getElementById('password').value
-    };
+        // Ваш JSON-объект пользователя
+        const editedUser = {
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            age: document.getElementById('age').value,
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
+        };
 
-    // Роль пользователя
-    const role = document.getElementById('role').value;
+        // Роль пользователя
+        const role = document.getElementById('role').value;
 
-    // Отправить POST-запрос на сервер для создания нового пользователя
-    fetch(`/api/users/create?role=${role}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(editedUser)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Ошибка сети');
-        }
-        document.getElementById('tab-btn-1').checked = true;
-        refreshTable();
-        return response.json();
-    })
-    .then(data => {
-        // В этом месте вы можете обработать ответ от сервера, если это необходимо
+        // Отправить POST-запрос на сервер для создания нового пользователя
+        fetch(`/api/users/create?role=${role}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(editedUser)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сети');
+                }
+                document.getElementById('tab-btn-1').checked = true;
+                refreshTable();
+                return response.json();
+            })
+            .then(data => {
+                // В этом месте вы можете обработать ответ от сервера, если это необходимо
 
-        // После успешного создания пользователя, вы можете обновить таблицу
-        refreshTable(); // Предполагается, что у вас уже есть функция refreshTable
-    })
-    .catch(error => {
-        document.getElementById('tab-btn-1').checked = true;
-        console.error('Произошла ошибка при создании пользователя:', error);
+                // После успешного создания пользователя, вы можете обновить таблицу
+                refreshTable(); // Предполагается, что у вас уже есть функция refreshTable
+            })
+            .catch(error => {
+                document.getElementById('tab-btn-1').checked = true;
+                console.error('Произошла ошибка при создании пользователя:', error);
+            });
     });
-});
-
-
 
 
     // Функция для обновления таблицы
-function refreshTable() {
-    const userTableBody = document.getElementById('user-table-body');
+    function refreshTable() {
+        const userTableBody = document.getElementById('user-table-body');
 
-    fetch('/api/users')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка сети');
-            }
-            return response.json();
-        })
-        .then(users => {
-            // Очищаем текущие данные в таблице
-            userTableBody.innerHTML = '';
+        fetch('/api/users')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сети');
+                }
+                return response.json();
+            })
+            .then(users => {
+                // Очищаем текущие данные в таблице
+                userTableBody.innerHTML = '';
 
-            users.forEach(user => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
+                users.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
                     <td>${user.id}</td>
                     <td>${user.firstName}</td>
                     <td>${user.lastName}</td>
@@ -262,25 +261,24 @@ function refreshTable() {
                     </td>
                 `;
 
-                // Назначаем обработчик события для кнопки "Delete"
-                const deleteButton = row.querySelector('.button-delete');
-                deleteButton.addEventListener('click', () => handleDeleteClick(user.id, user.email));
+                    // Назначаем обработчик события для кнопки "Delete"
+                    const deleteButton = row.querySelector('.button-delete');
+                    deleteButton.addEventListener('click', () => handleDeleteClick(user.id, user.email));
 
-                // Назначаем обработчик события для кнопки "Edit"
-                const editButton = row.querySelector('.button-edit');
-                editButton.addEventListener('click', () => handleEditClick(user));
+                    // Назначаем обработчик события для кнопки "Edit"
+                    const editButton = row.querySelector('.button-edit');
+                    editButton.addEventListener('click', () => handleEditClick(user));
 
-                userTableBody.appendChild(row);
+                    userTableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Произошла ошибка при получении данных:', error);
             });
-        })
-        .catch(error => {
-            console.error('Произошла ошибка при получении данных:', error);
-        });
-}
+    }
 
 // Вызываем функцию для обновления таблицы
-refreshTable();
-    
+    refreshTable();
 
-    
+
 });
