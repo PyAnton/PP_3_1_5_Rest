@@ -26,19 +26,19 @@ document.addEventListener('DOMContentLoaded', function () {
                             <input type="text" name="id" id="edit_id" value="${user.id}" readonly><br>
 
                             <label for="edit_firstname">First name</label>
-                            <input type="text" name="firstName" id="edit_firstname" value="${user.firstName}"><br>
+                            <input type="text" name="firstName" id="edit_firstname" value="${user.firstName}" required><br>
 
                             <label for="edit_lastName">Last name</label>
-                            <input type="text" name="lastName" id="edit_lastName" value="${user.lastName}"><br>
+                            <input type="text" name="lastName" id="edit_lastName" value="${user.lastName}" required><br>
 
                             <label for="edit_age">Age</label>
-                            <input type="text" name="age" id="edit_age" value="${user.age}"><br>
+                            <input type="text" name="age" id="edit_age" value="${user.age}" required><br>
 
                             <label for="edit_email">Email</label>
-                            <input type="email" name="email" id="edit_email" value="${user.email}"><br>
+                            <input type="email" name="email" id="edit_email" value="${user.email}" required><br>
 
                             <label for="edit_password">Password</label>
-                            <input type="password" name="password" id="edit_password" value="${user.password}"><br>
+                            <input type="password" name="password" id="edit_password" value="${user.password}" required><br>
 
                             <label for="edit_role">Role</label>
                             <select id="edit_role" name="role">

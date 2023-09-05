@@ -6,6 +6,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -37,16 +38,16 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Transactional(readOnly = true)
-    public User findUserByEmail(String email) {
+    public Optional<User> findUserByEmail(String email) {
         List<User> users = entityManager.createQuery(
                         "SELECT u FROM User u WHERE u.email = :email", User.class)
                 .setParameter("email", email)
                 .getResultList();
 
         if (!users.isEmpty()) {
-            return users.get(0);
+            return Optional.of(users.get(0));
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 }

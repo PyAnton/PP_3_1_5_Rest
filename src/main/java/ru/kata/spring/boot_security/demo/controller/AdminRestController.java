@@ -9,6 +9,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -33,7 +34,7 @@ public class AdminRestController {
     }
     @CrossOrigin
     @GetMapping("/me")
-    public ResponseEntity<User> getMe(Authentication authentication) {
+    public ResponseEntity<Optional<User>> getMe(Authentication authentication) {
         if (authentication != null) {
             return new ResponseEntity<>(userService.findUserByEmail(authentication.getName()),HttpStatus.OK);
         } else {
@@ -46,7 +47,7 @@ public class AdminRestController {
     public ResponseEntity<User> createUser(@RequestBody User user, @RequestParam String role) {
         user.addRole(role);
         userService.createUser(user);
-        return new ResponseEntity<>(userService.findUserByEmail(user.getEmail()),HttpStatus.OK);
+        return new ResponseEntity<>(userService.findUserByEmail(user.getEmail()).get(),HttpStatus.OK);
     }
 
     @CrossOrigin

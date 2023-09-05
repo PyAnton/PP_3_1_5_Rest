@@ -8,6 +8,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -22,13 +23,13 @@ public class UserService {
         this.roleService = roleService;
     }
     @Transactional(readOnly = true)
-    public User findUserByEmail(String email) {
+    public Optional<User> findUserByEmail(String email) {
         return userDao.findUserByEmail(email);
     }
 
     @Transactional
     public boolean createUser(User user) {
-        if (userDao.findUserByEmail(user.getEmail()) == null) {
+        if (userDao.findUserByEmail(user.getEmail()).isEmpty()) {
             user.setRoles(roleService.getOriginalRoles(user.getRoles()));
             user.setActive(true);
             user.setPassword(webSecurityConfig.passwordEncoder().encode(user.getPassword()));

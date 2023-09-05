@@ -12,7 +12,9 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,21 +27,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Transactional(readOnly = true)
-    public User findUserByEmail(String email) {
+    public Optional<User> findUserByEmail(String email) {
         return userDao.findUserByEmail(email);
     }
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findUserByEmail(username);
-        if (user == null) {
+        Optional<User> user = findUserByEmail(username);
+        if (user.isEmpty()) {
             throw new UsernameNotFoundException("User not found.");
         }
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                mapRoles(user.getRoles())
+                user.get().getEmail(),
+                user.get().getPassword(),
+                mapRoles(user.get().getRoles())
+
         );
     }
 

@@ -13,6 +13,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 public class HomeController {
@@ -30,8 +31,8 @@ public class HomeController {
 
     @GetMapping("/user")
     public String getUser(Principal principal, Model model) {
-        User user = userService.findUserByEmail(principal.getName());
-        model.addAttribute(user);
+        Optional<User> user = userService.findUserByEmail(principal.getName());
+        user.ifPresent(model::addAttribute);
         return "user";
     }
 
