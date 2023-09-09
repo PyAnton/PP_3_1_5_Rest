@@ -23,7 +23,8 @@ public class User {
     private String age;
     @Column(name = "active")
     private boolean active;
-    @ManyToMany
+
+    @ManyToMany()
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "users_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

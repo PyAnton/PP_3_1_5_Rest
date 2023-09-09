@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <input type="text" name="lastName" id="edit_lastName" value="${user.lastName}" required><br>
 
                             <label for="edit_age">Age</label>
-                            <input type="text" name="age" id="edit_age" value="${user.age}" required><br>
+                            <input type="number" pattern="\\d*" name="age" id="edit_age" value="${user.age}" required><br>
 
                             <label for="edit_email">Email</label>
                             <input type="email" name="email" id="edit_email" value="${user.email}" required><br>
